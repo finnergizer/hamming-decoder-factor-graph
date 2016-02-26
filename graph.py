@@ -47,34 +47,28 @@ class Graph:
                       "f3": ["x4", "x5", "x6", "x7"]}
         self.nodes = {}
         self.edges = {}
-        for node, connections in self.graph_string.iteritems():
+        for node, _ in self.graph_string.iteritems():
             n = None
             if node.startswith("x"):
                 n = Node(node, False)
             elif node.startswith("f"):
                 n = Node(node, True)
             self.nodes[n.id] = n
+        for node, connections in self.graph_string.iteritems():
+            n = self.nodes[node]
             for connection in connections:
                 edge = None
                 if self.nodes.get(connection):
                     edge = Edge(n, self.nodes[connection])
-                else:
-                    connection_node = None
-                    if connection.startswith("x"):
-                        connection_node = Node(connection, False)
-                    elif connection.startswith("f"):
-                        connection_node = Node(connection, True)
-                    self.nodes[connection_node.id] = connection_node
-                    edge = Edge(n, connection_node)
                 n.outgoing_edges.append(edge)
-                connection_node.incoming_edges.append(edge)
+                self.nodes[connection].incoming_edges.append(edge)
                 self.edges[str(edge)] = edge
 
     def __str__(self):
         result = ""
         for id, node in self.nodes.iteritems():
             result += str(node) + " (" + str(node.is_factor_node) +") :\n"
-            for edge in node.edges:
+            for edge in node.outgoing_edges:
                 result += str(edge) + "\n"
             result += "\n"
         return result
