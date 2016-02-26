@@ -1,6 +1,7 @@
 __author__ = 'shaughnfinnerty'
 
 import math
+import codeword
 import graph
 
 class Decoder:
@@ -74,17 +75,33 @@ class Decoder:
                 results.append(1)
         return results
 
+    def decode(self, transmission):
+        self.initialize_decoder(transmission)
+        decoded = []
+        for i in range(0,10):
+            self.iterate(i)
+            decoded = self.compute_belief()
+            for cdwd in codeword.Codeword.generate_codewords():
+                if cdwd == decoded:
+                    return decoded
+        print ("Did not find a codeword after 10 iterations")
+        return decoded
 
 
 
 
-d = Decoder(1)
+
+
+d = Decoder(0.5)
 d.initialize_decoder([-0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5])
-d.iterate(0)
-print (d.compute_belief())
-d.iterate(1)
-print (d.compute_belief())
-d.iterate(2)
-print (d.compute_belief())
+
+# for i in range(0,10):
+#     d.iterate(i)
+#     print(d.compute_belief())
 
 
+for i in range(0,10):
+    code = codeword.Codeword()
+    print "codeword:" + str(code.codeword)
+    print "decoded:" + str(d.decode(code.transmit(0.5)))
+    print ""

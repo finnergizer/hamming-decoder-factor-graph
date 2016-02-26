@@ -42,3 +42,8 @@ Iterative Decoder
         - https://en.wikipedia.org/wiki/Unit_function
     - stopping criterion: some time has passed (i.e. 10 iterations) OR a valid codeword has been reached
     -
+    
+Assumptions:
+    - The prior_probability calculated from the observed variable is fixed and does not need to be involved in the 
+    message passing (it comes from a factor node, however)
+    -
