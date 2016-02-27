@@ -47,3 +47,10 @@ Assumptions:
     - The prior_probability calculated from the observed variable is fixed and does not need to be involved in the 
     message passing (it comes from a factor node, however)
     -
+    
+TODO:
+    - PyDoc on functions
+    - Switch for Max-Prod vs. Sum-Prod
+    -
+    
+<script type="text/javascript" src="https://www.draw.io/js/embed-static.min.js"></script>
