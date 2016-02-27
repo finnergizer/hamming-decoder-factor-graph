@@ -43,6 +43,13 @@ class Decoder:
                 # 0.5 is the normalized factor calculation (from 4)
                 # TODO: Use indicator factor function with Dirac delta to determine 0.5, 0.5 computationally
                 msg = [a*b for a,b in zip(msg, [0.5,0.5])]
+                # print msg
+                # max-prod determination
+                # if True:
+                #     if msg[0] >= msg[1]:
+                #         msg = [msg[0], msg[0]]
+                #     else:
+                #         msg = [msg[1], msg[1]]
             else:
                 msg = [a*b for a,b in zip(msg, from_node.prior_prob)]
         self.graph.edges[from_node.id + "-->" + to_node.id].messages.append(msg)
@@ -78,13 +85,13 @@ class Decoder:
     def decode(self, transmission):
         self.initialize_decoder(transmission)
         decoded = []
-        for i in range(0,10):
+        for i in range(0,20):
             self.iterate(i)
             decoded = self.compute_belief()
             for cdwd in codeword.Codeword.generate_codewords():
                 if cdwd == decoded:
                     return decoded
-        print ("Did not find a codeword after 10 iterations")
+        print ("Did not find a codeword after 20 iterations")
         return decoded
 
 
@@ -92,16 +99,16 @@ class Decoder:
 
 
 
-d = Decoder(0.5)
-d.initialize_decoder([-0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5])
-
+# d = Decoder(1)
+# d.initialize_decoder([-0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5])
+#
+# # for i in range(0,10):
+# #     d.iterate(i)
+# #     print(d.compute_belief())
+#
+#
 # for i in range(0,10):
-#     d.iterate(i)
-#     print(d.compute_belief())
-
-
-for i in range(0,10):
-    code = codeword.Codeword()
-    print "codeword:" + str(code.codeword)
-    print "decoded:" + str(d.decode(code.transmit(0.5)))
-    print ""
+#     code = codeword.Codeword()
+#     print "codeword:" + str(code.codeword)
+#     print "decoded:" + str(d.decode(code.transmit(1)))
+#     print ""

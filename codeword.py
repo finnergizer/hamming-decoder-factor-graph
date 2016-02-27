@@ -2,6 +2,7 @@ __author__ = 'shaughnfinnerty'
 
 import numpy as np
 import random
+import math
 
 
 class Codeword:
@@ -27,14 +28,14 @@ class Codeword:
         return
 
     # This method will return an array representing the codeword with noise added to it
-    def transmit(self, sd_noise):
+    def transmit(self, variance):
         # TODO: Add Gaussian Noise
         def transform(x):
             if x == 1:
                 return -1
             elif x == 0:
                 return 1
-        transmission = map(transform, self.codeword) + np.random.normal(0, sd_noise, len(self.codeword))
+        transmission = map(transform, self.codeword) + np.random.normal(0, math.sqrt(variance), len(self.codeword))
         self.transmission = transmission.tolist()
         return self.transmission
 
