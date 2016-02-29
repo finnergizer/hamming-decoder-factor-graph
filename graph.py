@@ -36,6 +36,7 @@ class Edge:
 
 
 class Graph:
+
     def __init__(self):
         self.graph_string = {'x1': ["f1"],
                              "x2": ["f2"],

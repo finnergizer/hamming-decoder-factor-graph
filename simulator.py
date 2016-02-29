@@ -56,11 +56,11 @@ class Simulator():
 
 
     def save_results(self):
-        if not os.path.exists("./stats"):
-            os.makedirs("./stats")
         self.save_time = epoch_time = str(int(time.time()))
+        if not os.path.exists("./stats/advanced-run"):
+            os.makedirs("./stats/advanced-run")
         m = "sum-prod" if self.mode == Decoder.SUM_PROD else "max-prod"
-        with open("stats/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-bit_error_probability.csv" % {
+        with open("stats/advanced-run/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-bit_error_probability.csv" % {
         "time": epoch_time,
         "mode": m,
         "num_codewords": self.iterations}, 'wb') as result_csv:
@@ -69,7 +69,7 @@ class Simulator():
             for v, error in zip(self.variance_levels, self.bit_error_probability):
                 writer.writerow([v, error])
         for i, v in enumerate(self.variance_levels):
-            with open("stats/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-%(var)s-codewords-decoded.csv" % {
+            with open("stats/advanced-run/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-%(var)s-codewords-decoded.csv" % {
             "time": epoch_time,
             "mode": m,
             "num_codewords": str(self.iterations),
@@ -89,8 +89,8 @@ class Simulator():
         return
 
     def save_graph(self):
-        if not os.path.exists("./graphs"):
-            os.makedirs("./graphs")
+        if not os.path.exists("./graphs/advanced-run"):
+            os.makedirs("./graphs/advanced-run")
 
         m = "Sum-Prod" if self.mode == Decoder.SUM_PROD else "Max-Prod"
         plt.title("Hamming Decoder Factor Graph Simulation Results\n" +
@@ -99,7 +99,7 @@ class Simulator():
                   % {"codewords": str(self.iterations), "levels": str(self.variance_levels)})
         plt.xlabel("$\log_{10}(\sigma^2)$")
         plt.ylabel(r"$\log_{10}(P_e)$")
-        plt.savefig("graphs/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-bit_error_probability.png" %
+        plt.savefig("graphs/advanced-run/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-bit_error_probability.png" %
                     {"time": self.save_time,
                      "mode": m,
                      "num_codewords": self.iterations}, bbox_inches="tight")
