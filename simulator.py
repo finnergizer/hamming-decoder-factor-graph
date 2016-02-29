@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import math
 import time
 import csv
-
+import os
 
 class Simulator():
     USE_0_COMPARISON = False;
@@ -56,6 +56,8 @@ class Simulator():
 
 
     def save_results(self):
+        if not os.path.exists("./stats"):
+            os.makedirs("./stats")
         self.save_time = epoch_time = str(int(time.time()))
         m = "sum-prod" if self.mode == Decoder.SUM_PROD else "max-prod"
         with open("stats/%(time)s-%(mode)s-%(num_codewords)s-codewords-variance-bit_error_probability.csv" % {
@@ -87,6 +89,9 @@ class Simulator():
         return
 
     def save_graph(self):
+        if not os.path.exists("./graphs"):
+            os.makedirs("./graphs")
+
         m = "Sum-Prod" if self.mode == Decoder.SUM_PROD else "Max-Prod"
         plt.title("Hamming Decoder Factor Graph Simulation Results\n" +
                   r"$\log_{10}(\sigma^2)$ vs. $\log_{10}(P_e)$" + " for %(mode)s Algorithms\n" % {"mode": m} +
@@ -100,6 +105,8 @@ class Simulator():
                      "num_codewords": self.iterations}, bbox_inches="tight")
 
     def default_run(self):
+        if not os.path.exists("./graphs"):
+            os.makedirs("./graphs")
         self.save_time = str(int(time.time()))
         self.simulate(Decoder.SUM_PROD)
         self.compute_error()
