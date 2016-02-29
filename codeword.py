@@ -14,6 +14,7 @@ class Codeword:
         :return:
         """
         self.codeword = Codeword.generate_random_codeword()
+        self.transmission = ""
 
     def transmit(self, variance):
         """
