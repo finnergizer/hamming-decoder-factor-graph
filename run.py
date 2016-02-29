@@ -6,6 +6,7 @@ import sys
 
 def run():
     if (sys.argv[1] == "-advanced"):
+        print "Running advanced simulations..."
         s = Simulator(2000, [1, 0.5, 0.25, 0.125])
         s.simulate(Decoder.SUM_PROD)
         s.compute_error()
@@ -33,9 +34,10 @@ def run():
         s.save_results()
         s.plot('g^--')
         s.save_graph()
+        print "See graphs/advanced-run and stats/advanced-run for detailed results."
     else:
         print sys.argv
-        print "Running default simulation at variance levels %(var)s with %(num)s codewords" % \
+        print "Running default simulation at variance levels %(var)s with %(num)s codewords..." % \
               {"var": [1, 0.5, 0.25, 0.125],
                "num": sys.argv[1]}
         s = Simulator(int(sys.argv[1]), [1, 0.5, 0.25, 0.125])

@@ -20,6 +20,11 @@ class Simulator():
         self.save_time = ""
 
     def simulate(self, mode=Decoder.SUM_PROD):
+        """
+
+        :param mode: The algorithm (sum-prod vs max-prod) to use in the decoder simulations
+        :return:
+        """
         self.mode = mode
         self.codewords = []
         self.decoded = []
@@ -35,6 +40,11 @@ class Simulator():
             self.decoded.append(decoded)
 
     def compute_error(self):
+        """
+        Computes the number of incorrectly coded bits over the total number of bits transmitted and appends this result
+        to the array of bit_error_probabilities so that other variances can continue to be simulated.
+        :return:
+        """
         self.bit_error_probability = []
         for i in range(len(self.variance_levels)):
             # Start with 1.0 so that if bit error probability is 0, we do not have a domain error when eventually
@@ -56,6 +66,11 @@ class Simulator():
 
 
     def save_results(self):
+        """
+        Saves the bit_error_probability and corresponding variance in a csv file
+        Saves the codewords, their transmissions, and their resulting decoding in files separted by channel noise variance
+        :return:
+        """
         self.save_time = epoch_time = str(int(time.time()))
         if not os.path.exists("./stats/advanced-run"):
             os.makedirs("./stats/advanced-run")
@@ -82,6 +97,11 @@ class Simulator():
                                      ''.join(str(elem) for elem in decoded)])
 
     def plot(self, style):
+        """
+        Clears the plot, and Plots current levels of variance vs. their bit_error_probability on a figure
+        :param style: The style of the points and lines to plot the current dataset of variance and bit error probability
+        :return:
+        """
         plt.clf()
         plt.plot([math.log10(x) for x in self.variance_levels], [math.log10(y) for y in self.bit_error_probability],
                  style)
@@ -89,6 +109,10 @@ class Simulator():
         return
 
     def save_graph(self):
+        """
+        Saves the graph as a png. Used to save individuals algorithm simulations and plots.
+        :return:
+        """
         if not os.path.exists("./graphs/advanced-run"):
             os.makedirs("./graphs/advanced-run")
 
@@ -105,6 +129,11 @@ class Simulator():
                      "num_codewords": self.iterations}, bbox_inches="tight")
 
     def default_run(self):
+        """
+        Plots the results, saves the figure, and finally displays it from simulating codewords with Sum-prod and Max-prod
+        algorithms across variance levels. This combines the results in one plot.
+        :return:
+        """
         if not os.path.exists("./graphs"):
             os.makedirs("./graphs")
         self.save_time = str(int(time.time()))
