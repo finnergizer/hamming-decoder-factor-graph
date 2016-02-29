@@ -3,7 +3,7 @@ __author__ = 'shaughnfinnerty'
 from simulator import Simulator
 from decoder import Decoder
 import sys
-
+# Please see README.pdf OR README.html for running instructions OR visit https://github.com/finnergizer/hamming-decoder-factor-graph
 def run():
     if (sys.argv[1] == "-advanced"):
         print "Running advanced simulations..."
