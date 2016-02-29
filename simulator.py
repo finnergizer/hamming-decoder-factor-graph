@@ -16,6 +16,7 @@ class Simulator():
         self.variance_levels = variance_levels
         self.codewords = []
         self.decoded = []
+        self.transmissions = []
         self.bit_error_probability = []
         self.save_time = ""
 
@@ -31,13 +32,16 @@ class Simulator():
         for var in self.variance_levels:
             codewords = []
             decoded = []
+            transmissions = []
             decoder = Decoder(var, self.mode)
             for i in range(0, self.iterations):
                 code = codeword.Codeword()
                 codewords.append(code.codeword)
                 decoded.append(decoder.decode(code.transmit(var)))
+                transmissions.append(code.transmission)
             self.codewords.append(codewords)
             self.decoded.append(decoded)
+            self.transmissions.append(transmissions)
 
     def compute_error(self):
         """
@@ -90,11 +94,11 @@ class Simulator():
             "num_codewords": str(self.iterations),
             "var": str(v)}, 'wb') as result_csv:
                 writer = csv.writer(result_csv)
-                writer.writerow(["codeword", "decoded"])
-                for codeword, transmission, decoded in zip(self.codewords[i], self.codewords[i].transmission, self.decoded[i]):
+                writer.writerow(["codeword", "decoded", "transmission"])
+                for codeword, transmission, decoded in zip(self.codewords[i], self.transmissions[i], self.decoded[i]):
                     writer.writerow([''.join(str(elem) for elem in codeword),
-                                     ''.join(str(elem) for elem in transmission),
-                                     ''.join(str(elem) for elem in decoded)])
+                                     ''.join(str(elem) for elem in decoded),
+                                     ' '.join(str(elem) for elem in transmission)])
 
     def plot(self, style):
         """
